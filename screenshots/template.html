@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1242" />
+        <title>App Store Screenshot — Moonglow</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: #030508;
+                display: flex;
+                justify-content: center;
+                padding: 24px;
+                min-height: 100vh;
+            }
+
+            #canvas {
+                width: 1242px;
+                height: 2688px;
+                position: relative;
+                overflow: hidden;
+                flex-shrink: 0;
+                background:
+                    radial-gradient(
+                        ellipse 900px 700px at 72% 10%,
+                        rgba(253, 244, 215, 0.07) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        ellipse 500px 400px at 20% 75%,
+                        rgba(80, 100, 160, 0.05) 0%,
+                        transparent 100%
+                    ),
+                    linear-gradient(
+                        180deg,
+                        #060910 0%,
+                        #0a0f1c 25%,
+                        #0d1322 55%,
+                        #0a0e18 100%
+                    );
+            }
+
+            /* ── Stars ──────────────────────────────────────── */
+            .stars {
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+            }
+            .stars svg {
+                width: 100%;
+                height: 100%;
+            }
+
+            /* ── Text ───────────────────────────────────────── */
+            .text-area {
+                position: relative;
+                z-index: 10;
+                padding: 170px 80px 0;
+                text-align: center;
+            }
+            .text-area h1 {
+                font-family:
+                    ui-monospace, "SF Mono", "Cascadia Code", "Fira Code",
+                    monospace;
+                font-size: 96px;
+                font-weight: 800;
+                letter-spacing: 0.14em;
+                line-height: 1.12;
+                color: #f1f5f9;
+                margin-bottom: 36px;
+            }
+            .text-area p {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+                    sans-serif;
+                font-size: 46px;
+                font-weight: 300;
+                color: rgba(253, 244, 215, 0.65);
+                line-height: 1.6;
+                letter-spacing: 0.03em;
+                max-width: 960px;
+                margin: 0 auto;
+            }
+
+            /* ── Phone Mock ─────────────────────────────────── */
+            .screenshot-wrap {
+                position: absolute;
+                bottom: 90px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .phone-frame {
+                position: relative;
+                width: 945px; /* 905 + 20px padding each side */
+                border-radius: 58px;
+                background: linear-gradient(
+                    160deg,
+                    #2a2a2e 0%,
+                    #1a1a1e 30%,
+                    #0f0f12 70%,
+                    #1e1e22 100%
+                );
+                padding: 20px;
+                box-shadow:
+                    /* outer depth */
+                    0 40px 100px rgba(0, 0, 0, 0.6),
+                    0 0 0 1px rgba(255, 255, 255, 0.04),
+                    0 -1px 0 rgba(253, 244, 215, 0.06),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+            }
+            /* Side buttons */
+            .phone-frame::before {
+                content: "";
+                position: absolute;
+                /* right side — power button */
+                right: -3px;
+                top: 280px;
+                width: 4px;
+                height: 90px;
+                border-radius: 0 3px 3px 0;
+                background: linear-gradient(180deg, #333 0%, #1a1a1a 100%);
+                box-shadow:
+                    0 140px 0 #252525,
+                    0 140px 0 1px rgba(255, 255, 255, 0.03);
+            }
+            .phone-frame::after {
+                content: "";
+                position: absolute;
+                /* left side — volume buttons */
+                left: -3px;
+                top: 240px;
+                width: 4px;
+                height: 55px;
+                border-radius: 3px 0 0 3px;
+                background: linear-gradient(180deg, #333 0%, #1a1a1a 100%);
+                box-shadow:
+                    0 80px 0 #252525,
+                    0 80px 0 1px rgba(255, 255, 255, 0.03),
+                    0 160px 0 #252525,
+                    0 160px 0 1px rgba(255, 255, 255, 0.03);
+            }
+            .phone-screen {
+                border-radius: 40px;
+                overflow: hidden;
+                background: #000;
+            }
+            .phone-screen img {
+                display: block;
+                width: 905px; /* 1206 × 0.75 */
+                height: auto;
+            }
+            /* Dynamic Island notch */
+            .phone-notch {
+                position: absolute;
+                top: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 120px;
+                height: 34px;
+                background: #000;
+                border-radius: 20px;
+                z-index: 20;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="canvas">
+            <div class="stars">
+                <svg viewBox="0 0 1242 2688" xmlns="http://www.w3.org/2000/svg">
+                    <circle
+                        cx="42"
+                        cy="58"
+                        r="1.5"
+                        fill="rgba(255,255,255,0.9)"
+                    />
+                    <circle
+                        cx="135"
+                        cy="120"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle cx="248" cy="42" r="1.5" fill="#fff" />
+                    <circle
+                        cx="310"
+                        cy="195"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle
+                        cx="410"
+                        cy="88"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle
+                        cx="505"
+                        cy="260"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle cx="590" cy="55" r="1.5" fill="#fff" />
+                    <circle
+                        cx="680"
+                        cy="310"
+                        r="1"
+                        fill="rgba(255,255,255,0.8)"
+                    />
+                    <circle
+                        cx="745"
+                        cy="140"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle
+                        cx="830"
+                        cy="400"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle cx="920" cy="35" r="1.5" fill="#fff" />
+                    <circle
+                        cx="1010"
+                        cy="220"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="1085"
+                        cy="95"
+                        r="1"
+                        fill="rgba(255,255,255,0.8)"
+                    />
+                    <circle
+                        cx="1170"
+                        cy="340"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle
+                        cx="78"
+                        cy="420"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle cx="195" cy="560" r="1.5" fill="#fff" />
+                    <circle
+                        cx="340"
+                        cy="480"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle
+                        cx="460"
+                        cy="630"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="575"
+                        cy="510"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle
+                        cx="710"
+                        cy="680"
+                        r="1"
+                        fill="rgba(255,255,255,0.8)"
+                    />
+                    <circle cx="850" cy="550" r="1.5" fill="#fff" />
+                    <circle
+                        cx="980"
+                        cy="650"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle
+                        cx="1100"
+                        cy="480"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="1195"
+                        cy="600"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle
+                        cx="55"
+                        cy="780"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle
+                        cx="175"
+                        cy="880"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle cx="290" cy="750" r="1.5" fill="#fff" />
+                    <circle
+                        cx="365"
+                        cy="980"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle
+                        cx="470"
+                        cy="850"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="530"
+                        cy="1050"
+                        r="1"
+                        fill="rgba(255,255,255,0.8)"
+                    />
+                    <circle cx="650" cy="920" r="1.5" fill="#fff" />
+                    <circle
+                        cx="760"
+                        cy="1100"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle
+                        cx="830"
+                        cy="830"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle
+                        cx="940"
+                        cy="1020"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="1010"
+                        cy="880"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle cx="1140" cy="960" r="1.5" fill="#fff" />
+                    <circle
+                        cx="85"
+                        cy="1180"
+                        r="1"
+                        fill="rgba(255,255,255,0.8)"
+                    />
+                    <circle
+                        cx="210"
+                        cy="1280"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle
+                        cx="330"
+                        cy="1150"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle cx="435" cy="1350" r="1.5" fill="#fff" />
+                    <circle
+                        cx="560"
+                        cy="1220"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle
+                        cx="680"
+                        cy="1380"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle
+                        cx="795"
+                        cy="1200"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle
+                        cx="900"
+                        cy="1320"
+                        r="1"
+                        fill="rgba(255,255,255,0.8)"
+                    />
+                    <circle cx="1020" cy="1180" r="1.5" fill="#fff" />
+                    <circle
+                        cx="1150"
+                        cy="1300"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="65"
+                        cy="1480"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle
+                        cx="180"
+                        cy="1580"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle cx="290" cy="1450" r="1.5" fill="#fff" />
+                    <circle
+                        cx="395"
+                        cy="1620"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle
+                        cx="515"
+                        cy="1500"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle
+                        cx="620"
+                        cy="1680"
+                        r="1"
+                        fill="rgba(255,255,255,0.8)"
+                    />
+                    <circle
+                        cx="740"
+                        cy="1550"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle cx="855" cy="1700" r="1.5" fill="#fff" />
+                    <circle
+                        cx="960"
+                        cy="1480"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle
+                        cx="1070"
+                        cy="1640"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle
+                        cx="1180"
+                        cy="1520"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle
+                        cx="100"
+                        cy="1780"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle cx="230" cy="1880" r="1.5" fill="#fff" />
+                    <circle
+                        cx="350"
+                        cy="1750"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle
+                        cx="480"
+                        cy="1920"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="600"
+                        cy="1830"
+                        r="1"
+                        fill="rgba(255,255,255,0.8)"
+                    />
+                    <circle
+                        cx="720"
+                        cy="1960"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle cx="840" cy="1800" r="1.5" fill="#fff" />
+                    <circle
+                        cx="950"
+                        cy="1900"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle
+                        cx="1080"
+                        cy="1850"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="1190"
+                        cy="1950"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle
+                        cx="45"
+                        cy="2080"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle
+                        cx="160"
+                        cy="2200"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle cx="280" cy="2050" r="1.5" fill="#fff" />
+                    <circle
+                        cx="400"
+                        cy="2280"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="520"
+                        cy="2150"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle
+                        cx="640"
+                        cy="2350"
+                        r="1"
+                        fill="rgba(255,255,255,0.8)"
+                    />
+                    <circle
+                        cx="760"
+                        cy="2100"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle cx="880" cy="2300" r="1.5" fill="#fff" />
+                    <circle
+                        cx="990"
+                        cy="2180"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="1100"
+                        cy="2380"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle
+                        cx="1200"
+                        cy="2250"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle
+                        cx="70"
+                        cy="2450"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle cx="200" cy="2550" r="1.5" fill="#fff" />
+                    <circle
+                        cx="330"
+                        cy="2480"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle
+                        cx="460"
+                        cy="2600"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="580"
+                        cy="2500"
+                        r="1"
+                        fill="rgba(255,255,255,0.8)"
+                    />
+                    <circle
+                        cx="700"
+                        cy="2640"
+                        r="1"
+                        fill="rgba(255,255,255,0.6)"
+                    />
+                    <circle
+                        cx="820"
+                        cy="2520"
+                        r="1"
+                        fill="rgba(255,255,255,0.5)"
+                    />
+                    <circle cx="940" cy="2620" r="1.5" fill="#fff" />
+                    <circle
+                        cx="1060"
+                        cy="2550"
+                        r="1"
+                        fill="rgba(255,255,255,0.4)"
+                    />
+                    <circle
+                        cx="1170"
+                        cy="2650"
+                        r="1"
+                        fill="rgba(255,255,255,0.7)"
+                    />
+                    <circle cx="188" cy="310" r="2" fill="#fff" />
+                    <circle cx="620" cy="165" r="2" fill="#fff" />
+                    <circle cx="1050" cy="450" r="2" fill="#fff" />
+                    <circle cx="350" cy="1050" r="2" fill="#fff" />
+                    <circle cx="890" cy="780" r="2" fill="#fff" />
+                    <circle cx="150" cy="1650" r="2" fill="#fff" />
+                    <circle cx="750" cy="1420" r="2" fill="#fff" />
+                    <circle cx="1100" cy="1750" r="2" fill="#fff" />
+                    <circle cx="420" cy="2100" r="2" fill="#fff" />
+                    <circle cx="950" cy="2450" r="2" fill="#fff" />
+                </svg>
+            </div>
+
+            <!-- ✏️ Edit title & description below -->
+            <div class="text-area">
+                <h1>Fades with Time</h1>
+                <p>Softly dims with you, no harsh light.</p>
+            </div>
+
+            <!-- ✏️ Replace src with your screenshot path/URL -->
+            <div class="screenshot-wrap">
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen">
+                        <img src="../ios/3.webp" alt="App Screenshot" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
