@@ -23,10 +23,11 @@ This is a static website for the **Moonglow** App, hosted on **GitHub Pages**. I
 ```
 moonglow/
 ├── index.html              # Home / Landing Page
-├── privacy.html            # Privacy Policy (to be created)
-├── terms.html              # Terms of Service (to be created)
-├── AGENTS.md               # This file: Code Agent guide
-└── CNAME                   # Custom domain config (if needed)
+├── privacy.html            # Privacy Policy
+├── terms.html              # Terms of Service
+├── 404.html                # Custom 404 error page
+├── favicon.ico             # Site favicon
+└── AGENTS.md               # This file: Code Agent guide
 ```
 
 ## Page Design Guidelines
@@ -68,12 +69,7 @@ npx serve .
 
 ## Future Todos
 
-- [ ] Create `privacy.html` — Privacy Policy page
-- [ ] Create `terms.html` — Terms of Service page
-- [ ] Add privacy/terms navigation links to `index.html` footer
-- [ ] Consider adding a `CNAME` file for custom domain support
-- [ ] Consider adding a `favicon.ico`
-- [ ] Consider adding a `404.html` custom error page
+_(None for now — all planned items are complete.)_
 
 ## Notes
 
