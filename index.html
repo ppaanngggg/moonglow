@@ -12,70 +12,10 @@
                 background-color: #070a13;
             }
 
-            /* Moon phase animation core styles */
-            .moon-container {
-                position: relative;
-                width: 120px;
-                height: 120px;
-                background-color: #161b26; /* Moon shadow side */
-                border-radius: 50%;
-                overflow: hidden;
-                box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
-            }
-
-            /* Light side glow */
-            .moon-glow {
-                position: absolute;
-                inset: 0;
-                border-radius: 50%;
-                box-shadow: 0 0 40px rgba(253, 244, 215, 0.12);
-                pointer-events: none;
-            }
-
-            /* Mask layer simulating the lit side of the moon */
-            .moon-light {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: #fdf4d7; /* Warm moonlight */
-                border-radius: 50%;
-                box-shadow: 0 0 15px rgba(253, 244, 215, 0.4);
-                animation: moonPhase 12s linear infinite;
-            }
-
-            /* Moon phase animation via translateX and scaleX */
-            @keyframes moonPhase {
-                0% {
-                    transform: translateX(-100%) scaleX(1);
-                    background-color: #fdf4d7;
-                }
-                24.9% {
-                    background-color: #fdf4d7;
-                }
-                25% {
-                    /* Waxing crescent — lit side expands from the right */
-                    transform: translateX(-50%) scaleX(0);
-                    background-color: #fdf4d7;
-                }
-                50% {
-                    /* Full moon */
-                    transform: translateX(0%) scaleX(1);
-                    background-color: #fdf4d7;
-                }
-                74.9% {
-                    background-color: #fdf4d7;
-                }
-                75% {
-                    /* Waning crescent — lit side recedes to the left */
-                    transform: translateX(50%) scaleX(0);
-                    background-color: #161b26; /* Switch to dark for occlusion */
-                }
-                100% {
-                    transform: translateX(100%) scaleX(1);
-                    background-color: #161b26;
-                }
+            #moonSvg {
+                width: min(128vw, 480px);
+                height: min(128vw, 480px);
+                display: block;
             }
         </style>
     </head>
@@ -91,11 +31,256 @@
         >
             <!-- Moon phase composite -->
             <div class="relative mb-10">
-                <div class="moon-glow"></div>
-                <div class="moon-container">
-                    <div class="moon-light"></div>
-                </div>
+                <svg
+                    id="moonSvg"
+                    viewBox="0 0 360 360"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <defs>
+                        <radialGradient
+                            id="moonBody"
+                            cx="187.2"
+                            cy="171"
+                            r="57"
+                            gradientUnits="userSpaceOnUse"
+                        >
+                            <stop
+                                offset="0%"
+                                stop-color="#FFFFFF"
+                                stop-opacity="0.98"
+                            />
+                            <stop
+                                offset="35%"
+                                stop-color="#FFF5E8"
+                                stop-opacity="0.92"
+                            />
+                            <stop
+                                offset="100%"
+                                stop-color="#FFD080"
+                                stop-opacity="0.8"
+                            />
+                        </radialGradient>
+                        <radialGradient
+                            id="glow1"
+                            cx="180"
+                            cy="180"
+                            r="69"
+                            gradientUnits="userSpaceOnUse"
+                        >
+                            <stop
+                                offset="0%"
+                                stop-color="#FFB050"
+                                stop-opacity="0.28"
+                            />
+                            <stop
+                                offset="100%"
+                                stop-color="#FFB050"
+                                stop-opacity="0"
+                            />
+                        </radialGradient>
+                        <radialGradient
+                            id="glow2"
+                            cx="180"
+                            cy="180"
+                            r="96"
+                            gradientUnits="userSpaceOnUse"
+                        >
+                            <stop
+                                offset="0%"
+                                stop-color="#FFB050"
+                                stop-opacity="0.14"
+                            />
+                            <stop
+                                offset="100%"
+                                stop-color="#FFB050"
+                                stop-opacity="0"
+                            />
+                        </radialGradient>
+                        <radialGradient
+                            id="glow3"
+                            cx="180"
+                            cy="180"
+                            r="144"
+                            gradientUnits="userSpaceOnUse"
+                        >
+                            <stop
+                                offset="0%"
+                                stop-color="#FF7700"
+                                stop-opacity="0.08"
+                            />
+                            <stop
+                                offset="100%"
+                                stop-color="#FF7700"
+                                stop-opacity="0"
+                            />
+                        </radialGradient>
+                        <radialGradient
+                            id="glow4"
+                            cx="180"
+                            cy="180"
+                            r="228"
+                            gradientUnits="userSpaceOnUse"
+                        >
+                            <stop
+                                offset="0%"
+                                stop-color="#FF7700"
+                                stop-opacity="0.04"
+                            />
+                            <stop
+                                offset="100%"
+                                stop-color="#FF7700"
+                                stop-opacity="0"
+                            />
+                        </radialGradient>
+                    </defs>
+                    <circle
+                        id="mg4"
+                        cx="180"
+                        cy="180"
+                        r="228"
+                        fill="url(#glow4)"
+                    />
+                    <circle
+                        id="mg3"
+                        cx="180"
+                        cy="180"
+                        r="144"
+                        fill="url(#glow3)"
+                    />
+                    <circle
+                        id="mg2"
+                        cx="180"
+                        cy="180"
+                        r="96"
+                        fill="url(#glow2)"
+                    />
+                    <circle
+                        id="mg1"
+                        cx="180"
+                        cy="180"
+                        r="69"
+                        fill="url(#glow1)"
+                    />
+                    <path id="moonPath" d="" fill="url(#moonBody)" />
+                </svg>
             </div>
+
+            <script>
+                (function () {
+                    var CX = 180,
+                        CY = 180,
+                        R = 60;
+                    var CYCLE = 12000;
+                    var moonEl = document.getElementById("moonPath");
+                    var gStops = [
+                        {
+                            el: document.querySelector(
+                                "#glow1 stop:first-child",
+                            ),
+                            base: 0.28,
+                        },
+                        {
+                            el: document.querySelector(
+                                "#glow2 stop:first-child",
+                            ),
+                            base: 0.14,
+                        },
+                        {
+                            el: document.querySelector(
+                                "#glow3 stop:first-child",
+                            ),
+                            base: 0.08,
+                        },
+                        {
+                            el: document.querySelector(
+                                "#glow4 stop:first-child",
+                            ),
+                            base: 0.04,
+                        },
+                    ];
+                    var g1El = document.getElementById("mg1");
+
+                    function moonPath(phase) {
+                        if (phase >= 0.999) {
+                            return (
+                                "M " +
+                                CX +
+                                " " +
+                                (CY - R) +
+                                " A " +
+                                R +
+                                " " +
+                                R +
+                                " 0 1 1 " +
+                                CX +
+                                " " +
+                                (CY + R) +
+                                " A " +
+                                R +
+                                " " +
+                                R +
+                                " 0 1 1 " +
+                                CX +
+                                " " +
+                                (CY - R) +
+                                " Z"
+                            );
+                        }
+                        if (phase <= 0.001) return "M " + CX + " " + CY + " Z";
+                        var b = R * (2 * phase - 1);
+                        var rx = Math.max(Math.abs(b), 0.01).toFixed(2);
+                        var sw = b >= 0 ? 1 : 0;
+                        return (
+                            "M " +
+                            CX +
+                            " " +
+                            (CY - R) +
+                            " A " +
+                            R +
+                            " " +
+                            R +
+                            " 0 1 1 " +
+                            CX +
+                            " " +
+                            (CY + R) +
+                            " A " +
+                            rx +
+                            " " +
+                            R +
+                            " 0 0 " +
+                            sw +
+                            " " +
+                            CX +
+                            " " +
+                            (CY - R) +
+                            " Z"
+                        );
+                    }
+
+                    var start = null;
+                    function frame(ts) {
+                        if (!start) start = ts;
+                        var t = ((ts - start) % CYCLE) / CYCLE;
+                        // Triangle wave: 0 → 1 → 0 (new → full → new)
+                        var phase = 1 - Math.abs(2 * t - 1);
+                        var gs = Math.pow(phase, 0.5);
+
+                        moonEl.setAttribute("d", moonPath(phase));
+                        moonEl.style.display = phase > 0.02 ? "" : "none";
+                        g1El.style.display = phase > 0.02 ? "" : "none";
+
+                        for (var i = 0; i < gStops.length; i++) {
+                            gStops[i].el.setAttribute(
+                                "stop-opacity",
+                                (gStops[i].base * gs).toFixed(4),
+                            );
+                        }
+
+                        requestAnimationFrame(frame);
+                    }
+                    requestAnimationFrame(frame);
+                })();
+            </script>
 
             <!-- App name -->
             <h1
