@@ -3,67 +3,11 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>404 · Moonglow</title>
-        <!-- Tailwind CSS via CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-        <style>
-            body {
-                background-color: #070a13;
-            }
-        </style>
+        <title>Redirecting… · Moonglow</title>
+        <meta http-equiv="refresh" content="0;url=index.html" />
+        <script>
+            window.location.replace("index.html");
+        </script>
     </head>
-    <body
-        class="text-gray-400 min-h-screen flex flex-col justify-between items-center font-sans antialiased selection:bg-amber-100 selection:text-gray-900"
-    >
-        <div></div>
-
-        <main class="flex flex-col items-center justify-center text-center px-6">
-            <!-- Error code -->
-            <p
-                class="text-8xl md:text-9xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-slate-100 to-slate-300 font-mono mb-4 select-none"
-            >
-                404
-            </p>
-
-            <!-- Divider line -->
-            <div class="w-12 h-px bg-gray-700 mb-6"></div>
-
-            <!-- Message -->
-            <p class="text-sm text-gray-500 tracking-wider max-w-xs">
-                The night is still — this page has drifted beyond the moonlight.
-            </p>
-
-            <!-- Back home link -->
-            <a
-                href="index.html"
-                class="mt-10 inline-block text-xs tracking-[0.3em] uppercase text-amber-200/60 font-semibold hover:text-amber-200 transition-colors"
-            >
-                ← Return Home
-            </a>
-        </main>
-
-        <!-- Footer -->
-        <footer
-            class="w-full py-8 text-center text-xs text-gray-700 tracking-wide border-t border-gray-800/50"
-        >
-            <nav class="mb-3 space-x-6">
-                <a
-                    href="index.html"
-                    class="hover:text-gray-500 transition-colors"
-                    >Home</a
-                >
-                <a
-                    href="privacy.html"
-                    class="hover:text-gray-500 transition-colors"
-                    >Privacy</a
-                >
-                <a
-                    href="terms.html"
-                    class="hover:text-gray-500 transition-colors"
-                    >Terms</a
-                >
-            </nav>
-            <p>© 2026 Moonglow. All rights reserved.</p>
-        </footer>
-    </body>
+    <body></body>
 </html>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" id="htmlRoot">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,13 +17,30 @@
                 height: min(128vw, 480px);
                 display: block;
             }
+
+            /* Bilingual toggle */
+            [lang="en"] .t-zh {
+                display: none;
+            }
+            [lang="zh"] .t-en {
+                display: none;
+            }
         </style>
     </head>
     <body
         class="text-gray-400 min-h-screen flex flex-col justify-between items-center font-sans antialiased selection:bg-amber-100 selection:text-gray-900"
     >
-        <!-- Top spacer for visual balance -->
-        <div></div>
+        <!-- Language toggle -->
+        <div class="w-full flex justify-end px-6 pt-5">
+            <button
+                id="langToggle"
+                class="text-xs tracking-wider text-gray-600 hover:text-amber-200/80 transition-colors font-mono border border-gray-800 rounded-full px-3 py-1"
+                aria-label="Switch language"
+            >
+                <span class="t-en">中文</span>
+                <span class="t-zh">EN</span>
+            </button>
+        </div>
 
         <!-- Hero section -->
         <main
@@ -284,21 +301,25 @@
 
             <!-- App name -->
             <h1
-                class="text-4xl md:text-5xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-slate-100 to-slate-300 font-mono mb-4"
+                class="text-4xl md:text-5xl font-extrabold tracking-widest text-slate-200 font-mono mb-4"
             >
-                Moonglow
+                <span class="t-en">Moonglow</span
+                ><span class="t-zh">柔月光</span>
             </h1>
 
             <!-- Status badge -->
             <p
                 class="text-xs md:text-sm tracking-[0.3em] uppercase text-amber-200/60 font-semibold mb-2 animate-pulse"
             >
-                Coming Soon
+                <span class="t-en">Coming Soon</span
+                ><span class="t-zh">即将上线</span>
             </p>
 
             <!-- Tagline -->
             <p class="text-xs text-gray-600 tracking-wider max-w-xs mt-2">
-                Gentle light for quiet nights · Stay tuned
+                <span class="t-en"
+                    >Gentle light for quiet nights · Stay tuned</span
+                ><span class="t-zh">温柔月光，静候佳期</span>
             </p>
         </main>
 
@@ -310,20 +331,39 @@
                 <a
                     href="index.html"
                     class="text-amber-200/60 hover:text-amber-200 transition-colors"
-                    >Home</a
+                    ><span class="t-en">Home</span
+                    ><span class="t-zh">首页</span></a
                 >
                 <a
                     href="privacy.html"
                     class="hover:text-gray-500 transition-colors"
-                    >Privacy</a
+                    ><span class="t-en">Privacy</span
+                    ><span class="t-zh">隐私政策</span></a
                 >
                 <a
                     href="terms.html"
                     class="hover:text-gray-500 transition-colors"
-                    >Terms</a
+                    ><span class="t-en">Terms</span
+                    ><span class="t-zh">服务条款</span></a
                 >
             </nav>
-            <p>© 2026 Moonglow. All rights reserved.</p>
+            <p>
+                <span class="t-en">© 2026 Moonglow. All rights reserved.</span
+                ><span class="t-zh">© 2026 柔月光 保留所有权利</span>
+            </p>
         </footer>
+        <script>
+            (function () {
+                var root = document.getElementById("htmlRoot");
+                var btn = document.getElementById("langToggle");
+                var saved = localStorage.getItem("moonglow-lang");
+                if (saved === "zh") root.setAttribute("lang", "zh");
+                btn.addEventListener("click", function () {
+                    var next = root.getAttribute("lang") === "en" ? "zh" : "en";
+                    root.setAttribute("lang", next);
+                    localStorage.setItem("moonglow-lang", next);
+                });
+            })();
+        </script>
     </body>
 </html>
